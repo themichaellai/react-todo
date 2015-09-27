@@ -1,3 +1,26 @@
+var TodoRow = React.createClass({
+  getInitialState: function() {
+    return {
+      done: false,
+    };
+  },
+  toggleShow: function() {
+    console.log('toggleShow');
+    this.setState({
+      done: !this.state.done,
+    });
+  },
+  render: function() {
+    var done;
+    if (this.state.done) {
+      done = (<span>Done!</span>);
+    }
+    return (
+      <li onClick={this.toggleShow}>{this.props.todoName} {done}</li>
+    );
+  },
+});
+
 var TodoApp = React.createClass({
   getInitialState: function() {
     return {
@@ -12,21 +35,20 @@ var TodoApp = React.createClass({
     todos.push({
       name: todoText,
     });
-    console.log(todos);
     this.setState({
       todos: todos,
     });
   },
   renderTodo: function(todo, i) {
     return (
-      <li key={i}>{todo.name}</li>
+      <TodoRow key={i} todoName={todo.name} />
     );
   },
   render: function() {
     var todoItemElements = this.state.todos.map(this.renderTodo);
     return (
       <div>
-        <h1>Hello world!</h1>
+        <h1>Hello World!</h1>
         <input type="text" id="todo-input"></input>
         <button onClick={this.addTodo}>Add</button>
         <ol>
@@ -38,6 +60,6 @@ var TodoApp = React.createClass({
 });
 
 React.render(
-  <TodoApp />,
+  <TodoApp name={name} />,
   document.getElementById('content')
 );
